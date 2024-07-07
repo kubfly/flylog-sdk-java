@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package flylog.sdk.utility;
+package flylog.sdk.utility.concurrent;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
