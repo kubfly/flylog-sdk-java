@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>Then it can enable thread section and resume threads access to the resource.
  *
  * @author Dmitry Kotlyarov
- * @since 25.0
+ * @since 1.0
  */
 public final class ThreadSection {
     private final AtomicBoolean enabled;

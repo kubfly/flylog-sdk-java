@@ -20,9 +20,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kubfly</groupId>
+    <groupId>kubfly</groupId>
     <artifactId>flylog-sdk-java</artifactId>
-    <version>25.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>FlyLog SDK for Java</name>
@@ -40,14 +40,14 @@
     </licenses>
     <organization>
         <name>KubFly</name>
-        <url>https://kubfly.com</url>
+        <url>https://kubfly.io</url>
     </organization>
     <developers>
         <developer>
             <id>dmktv</id>
             <name>Dmitry Kotlyarov</name>
             <url>https://github.com/dmktv</url>
-            <email>dmitry.kotlyarov@kubfly.com</email>
+            <email>dmitry.kotlyarov@kubfly.io</email>
             <organization>KubFly</organization>
         </developer>
     </developers>
