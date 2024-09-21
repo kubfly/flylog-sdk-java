@@ -35,7 +35,7 @@ public final class ThreadSection {
     /**
      * Constructs a thread section with the specified state.
      *
-     * @param enabled defines the state of a thread section {@code true} - enabled or {@code false} - disabled
+     * @param enabled the state of a thread section {@code true} - enabled or {@code false} - disabled
      */
     public ThreadSection(boolean enabled) {
         this.enabled = new AtomicBoolean(enabled);

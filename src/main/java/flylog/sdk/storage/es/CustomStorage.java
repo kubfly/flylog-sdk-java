@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package flylog.sdk.storage.fs;
+package flylog.sdk.storage.es;
 
 import flylog.sdk.storage.Storage;
 import flylog.sdk.storage.StorageType;
@@ -22,7 +22,7 @@ import flylog.sdk.storage.StorageType;
 import java.io.Serializable;
 
 /**
- * File System Storage abstraction layer.
+ * Empty Local Storage abstraction layer.
  *
  * @author Dmitry Kotlyarov
  * @since 1.0

@@ -29,6 +29,11 @@ public enum StorageType {
     CS("cs"),
 
     /**
+     * Empty Local Storage.
+     */
+    ES("es"),
+
+    /**
      * File System Storage.
      */
     FS("fs"),

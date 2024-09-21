@@ -16,7 +16,10 @@
 
 package flylog.sdk.storage;
 
-import java.io.Serializable;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Object storage abstraction layer.
@@ -25,93 +28,120 @@ import java.io.Serializable;
  * @author Dmitry Kotlyarov
  * @since 1.0
  */
-public abstract class Storage implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Storage type.
-     */
-    protected final StorageType type;
-
-    /**
-     * Endpoint URL.
-     */
-    protected final String endpoint;
-
-    /**
-     * Bucket name.
-     */
-    protected final String bucket;
-
-    /**
-     * Access key.
-     */
-    protected final String access;
-
-    /**
-     * Secret key.
-     */
-    protected final String secret;
-
-    /**
-     * Constructs a storage with specified parameters.
-     *
-     * @param type defines the storage type
-     * @param endpoint defines the endpoint URL
-     * @param bucket defines the bucket name
-     * @param access defines the access key
-     * @param secret defines the secret key
-     */
-    protected Storage(StorageType type, String endpoint, String bucket, String access, String secret) {
-        this.type = type;
-        this.endpoint = endpoint;
-        this.bucket = bucket;
-        this.access = access;
-        this.secret = secret;
-    }
-
+public interface Storage {
     /**
      * Gets the storage type.
      *
      * @return storage type
      */
-    public StorageType getType() {
-        return type;
-    }
+    public StorageType getType();
 
     /**
      * Gets the endpoint URL.
      *
      * @return endpoint URL
      */
-    public String getEndpoint() {
-        return endpoint;
-    }
+    public String getEndpoint();
 
     /**
      * Gets the bucket name.
      *
      * @return bucket name
      */
-    public String getBucket() {
-        return bucket;
-    }
+    public String getBucket();
 
     /**
      * Gets the access key.
      *
      * @return access key
      */
-    public String getAccess() {
-        return access;
-    }
+    public String getAccessKey();
 
     /**
      * Gets the secret key.
      *
      * @return secret key
      */
-    public String getSecret() {
-        return secret;
+    public String getSecretKey();
+
+    /**
+     * Gets the storage info.
+     *
+     * @return storage info
+     */
+    public default String getInfo() {
+        return getInfo(null);
     }
+
+    /**
+     * Gets the storage info with the specified object prefix.
+     *
+     * @param prefix the object prefix, can be {@code null}
+     *
+     * @return storage info with object prefix
+     */
+    public String getInfo(String prefix);
+
+    public default StorageObject get(String key) {
+        StorageObject so = find(key);
+        if (so != null) {
+            return so;
+        } else {
+            throw new ObjectStorageException(String.format("Object '%s' is not found", getInfo(key)));
+        }
+    }
+
+    public default StorageObject find(String key) {
+        Iterator<StorageObject> sos = list(key, 1).iterator();
+        return sos.hasNext() ? sos.next() : null;
+    }
+
+    public Iterable<StorageObject> list(String prefix, int maxKeys);
+
+    /**
+     * Gets the metadata of the specified object as a string map.
+     *
+     * @param key the object key
+     *
+     * @return metadata string map
+     *
+     * @throws ObjectStorageException if the object does not exist
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public Map<String, String> getMeta(String key);
+
+    /**
+     * Put the metadata to the specified object as a string map.
+     *
+     * @param key the object key
+     * @param meta the metadata
+     *
+     * @throws ObjectStorageException if the object metadata could not be put
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public void putMeta(String key, Map<String, String> meta);
+
+    /**
+     * Gets the data of the specified object as a stream.
+     *
+     * @param key the object key
+     *
+     * @return data input stream
+     *
+     * @throws ObjectStorageException if the object does not exist
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public InputStream getData(String key);
+
+    /**
+     * Put the data to the specified object as a stream.
+     *
+     * @param key the object key
+     *
+     * @return data output stream
+     *
+     * @throws ObjectStorageException if the object data could not be put
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public OutputStream putData(String key);
 }

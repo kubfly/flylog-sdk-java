@@ -19,25 +19,61 @@ package flylog.sdk.storage.cs;
 import flylog.sdk.storage.Storage;
 import flylog.sdk.storage.StorageType;
 
+import java.io.Serializable;
+
 /**
  * Google Cloud Storage abstraction layer.
  *
  * @author Dmitry Kotlyarov
  * @since 1.0
  */
-public final class CustomStorage extends Storage {
+public class CustomStorage implements Storage, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs Google Cloud Storage with specified parameters.
-     *
-     * @param type defines the storage type
-     * @param endpoint defines the endpoint URL
-     * @param bucket defines the bucket name
-     * @param access defines the access key
-     * @param secret defines the secret key
+     * Storage type.
      */
-    public CustomStorage(StorageType type, String endpoint, String bucket, String access, String secret) {
-        super(type, endpoint, bucket, access, secret);
+    protected final StorageType type;
+
+    /**
+     * Endpoint URL.
+     */
+    protected final String endpoint;
+
+    /**
+     * Bucket name.
+     */
+    protected final String bucket;
+
+    /**
+     * Access key.
+     */
+    protected final String accessKey;
+
+    /**
+     * Secret key.
+     */
+    protected final String secretKey;
+
+    /**
+     * Storage info.
+     */
+    protected final String info;
+
+    /**
+     * Constructs Empty Local Storage with the specified parameters.
+     *
+     * @param endpoint the endpoint URL
+     * @param bucket the bucket name
+     * @param accessKey the access key
+     * @param secretKey the secret key
+     */
+    public CustomStorage(String endpoint, String bucket, String accessKey, String secretKey) {
+        this.type = StorageType.ES;
+        this.endpoint = endpoint;
+        this.bucket = bucket;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.info = String.format("[%s]-[%s]: %s://%s", this.endpoint, this.accessKey, this.type, this.bucket);
     }
 }
