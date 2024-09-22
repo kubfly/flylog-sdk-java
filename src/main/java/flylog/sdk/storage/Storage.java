@@ -74,7 +74,7 @@ public interface Storage {
     /**
      * Gets the storage info with the specified object prefix.
      *
-     * @param prefix the object prefix, can be {@code null}
+     * @param prefix the object prefix
      *
      * @return storage info with object prefix
      */
@@ -82,6 +82,16 @@ public interface Storage {
         return String.format("%s/%s", getInfo(), prefix);
     }
 
+    /**
+     * Gets the specified storage object.
+     *
+     * @param key the object key
+     *
+     * @return storage object if it exists
+     *
+     * @throws ObjectStorageException if the object does not exist
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
     public default StorageObject get(String key) {
         StorageObject so = find(key);
         if (so != null) {
@@ -91,11 +101,30 @@ public interface Storage {
         }
     }
 
+    /**
+     * Finds the specified storage object.
+     *
+     * @param key the object key
+     *
+     * @return storage object if it exists, {@code null} otherwise
+     *
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
     public default StorageObject find(String key) {
         Iterator<StorageObject> sos = list(key, 1).iterator();
         return sos.hasNext() ? sos.next() : null;
     }
 
+    /**
+     * Iterates over the storage objects with the specified prefix.
+     *
+     * @param prefix the objects prefix
+     * @param maxKeys the number of storage object keys in one request
+     *
+     * @return iterable with storage objects
+     *
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
     public Iterable<StorageObject> list(String prefix, int maxKeys);
 
     /**
