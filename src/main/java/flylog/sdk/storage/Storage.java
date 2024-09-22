@@ -69,9 +69,7 @@ public interface Storage {
      *
      * @return storage info
      */
-    public default String getInfo() {
-        return getInfo(null);
-    }
+    public String getInfo();
 
     /**
      * Gets the storage info with the specified object prefix.
@@ -80,7 +78,9 @@ public interface Storage {
      *
      * @return storage info with object prefix
      */
-    public String getInfo(String prefix);
+    public default String getInfo(String prefix) {
+        return String.format("%s/%s", getInfo(), prefix);
+    }
 
     public default StorageObject get(String key) {
         StorageObject so = find(key);
@@ -97,29 +97,6 @@ public interface Storage {
     }
 
     public Iterable<StorageObject> list(String prefix, int maxKeys);
-
-    /**
-     * Gets the metadata of the specified object as a string map.
-     *
-     * @param key the object key
-     *
-     * @return metadata string map
-     *
-     * @throws ObjectStorageException if the object does not exist
-     * @throws ConnectionStorageException if an error in connection occurs
-     */
-    public Map<String, String> getMeta(String key);
-
-    /**
-     * Put the metadata to the specified object as a string map.
-     *
-     * @param key the object key
-     * @param meta the metadata
-     *
-     * @throws ObjectStorageException if the object metadata could not be put
-     * @throws ConnectionStorageException if an error in connection occurs
-     */
-    public void putMeta(String key, Map<String, String> meta);
 
     /**
      * Gets the data of the specified object as a stream.
@@ -144,4 +121,27 @@ public interface Storage {
      * @throws ConnectionStorageException if an error in connection occurs
      */
     public OutputStream putData(String key);
+
+    /**
+     * Gets the metadata of the specified object as a string map.
+     *
+     * @param key the object key
+     *
+     * @return metadata string map
+     *
+     * @throws ObjectStorageException if the object does not exist
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public Map<String, String> getMeta(String key);
+
+    /**
+     * Put the metadata to the specified object as a string map.
+     *
+     * @param key the object key
+     * @param meta the metadata
+     *
+     * @throws ObjectStorageException if the object metadata could not be put
+     * @throws ConnectionStorageException if an error in connection occurs
+     */
+    public void putMeta(String key, Map<String, String> meta);
 }

@@ -22,7 +22,7 @@ package flylog.sdk.storage;
  * @author Dmitry Kotlyarov
  * @since 1.0
  */
-public abstract class StorageException extends RuntimeException {
+public class StorageException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
